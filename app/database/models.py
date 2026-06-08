@@ -79,6 +79,7 @@ class Order(Base):
      id = Column(Integer,primary_key=True,index=True)
      customer_name = Column(String(100),nullable = False)
      customer_phone = Column(String(20),nullable=True)
+     customer_id    = Column(Integer, ForeignKey("customers.id"), nullable=True) 
      billed_by_id = Column(Integer,ForeignKey("users.id"))
      status = Column(String(50),default= "pending")
      total_amount = Column(Float,default=0.0)

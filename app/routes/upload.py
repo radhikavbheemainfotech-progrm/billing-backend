@@ -22,6 +22,7 @@ def upload_image(
     _: User = Depends(require_admin),
 
 ):
+    
     allowed =  ["image/jpeg", "image/png", "image/webp"]
     if file.content_type not in allowed:
        raise HTTPException(status_code=400, detail="Only JPG,PNG,WEBP allowed")

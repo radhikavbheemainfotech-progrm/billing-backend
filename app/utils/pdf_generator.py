@@ -7,6 +7,7 @@ from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT, TA_LEFT
 
 
+
 def generate_invoice_pdf(order, invoice, business) -> io.BytesIO:
     """
     Generate a styled invoice PDF for a given order.
@@ -52,7 +53,7 @@ def generate_invoice_pdf(order, invoice, business) -> io.BytesIO:
     )
     elements = []
 
-    # ── Header: business name + invoice meta ─────────────────
+    
     inv_number = invoice.invoice_number if invoice else "N/A"
     inv_date   = order.created_at.strftime("%d %b %Y")
 
@@ -75,7 +76,7 @@ def generate_invoice_pdf(order, invoice, business) -> io.BytesIO:
     ]))
     elements.append(header_table)
 
-    # Business contact details
+    
     biz_details = []
     if biz_addr:  biz_details.append(biz_addr)
     if biz_phone: biz_details.append(f"Phone: {biz_phone}")
@@ -131,7 +132,7 @@ def generate_invoice_pdf(order, invoice, business) -> io.BytesIO:
     gst_amount  = round(subtotal * gst_rate / 100, 2)
     grand_total = round(subtotal + gst_amount, 2)
 
-    # Header row
+    
     table_data = [[
         Paragraph("<b>Product</b>",    ps("th", fontSize=10, fontName="Helvetica-Bold", textColor=colors.white)),
         Paragraph("<b>Qty</b>",        ps("th_c", fontSize=10, fontName="Helvetica-Bold", textColor=colors.white, alignment=TA_CENTER)),
@@ -152,7 +153,7 @@ def generate_invoice_pdf(order, invoice, business) -> io.BytesIO:
 
     n = len(order.items)  # number of item rows (excluding header)
 
-    # Subtotal / GST / Grand Total rows
+    
     empty = Paragraph("", styles["Normal"])
     table_data.append([
         empty, empty,

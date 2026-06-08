@@ -14,7 +14,7 @@ def refresh(request: Request, response: Response, db: Session = Depends(get_db))
 
     role_hint = None
 
-    # ✅ Try customer refresh token first, then admin
+    
     customer_refresh = request.cookies.get("customer_refresh_token")
     admin_refresh = request.cookies.get("refresh_token")
 
@@ -44,7 +44,7 @@ def refresh(request: Request, response: Response, db: Session = Depends(get_db))
         if not db_token:
             raise HTTPException(status_code=401, detail="Token not found")
 
-        # ✅ correct field name for customer
+        
         if db_token.expire_at < datetime.utcnow():
             raise HTTPException(status_code=401, detail="Refresh token expired")
 
@@ -61,7 +61,7 @@ def refresh(request: Request, response: Response, db: Session = Depends(get_db))
         if not db_token:
             raise HTTPException(status_code=401, detail="Token not found")
 
-        # ✅ correct field name for admin
+    
         if db_token.expires_at < datetime.utcnow():
             raise HTTPException(status_code=401, detail="Refresh token expired")
 

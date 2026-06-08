@@ -18,7 +18,7 @@ from app.core.security import decode_token
 router = APIRouter()
 
 def get_current_user_or_customer(request: Request, db: Session = Depends(get_db)):
-    token = request.cookies.get("access_token")
+    token = request.cookies.get("access_token") or request.cookies.get("customer_access_token")
     if not token:
         raise HTTPException(status_code=401, detail="Not authentication")
     
@@ -97,6 +97,7 @@ def create_order(
     order = Order(
         customer_name  = customer_name,
         customer_phone = customer_phone,
+         customer_id    = current["id"] if current["role"] == "customer" else None,
         billed_by_id   = billed_by_id,
         total_amount   = grand_total,   
         status         = order_status,
@@ -146,7 +147,7 @@ def list_orders(
     )
 
     if current["role"] == "customer":
-        query = query.filter(Order.customer_name == current["name"])
+        query = query.filter(Order.customer_id == current["id"])
 
     return query.all()
 
