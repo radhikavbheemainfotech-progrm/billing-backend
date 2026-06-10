@@ -74,9 +74,9 @@ def refresh(request: Request, response: Response, db: Session = Depends(get_db))
     db_token.token = hash_token(new_refresh_token)
 
     if role == "customer":
-        db_token.expire_at = datetime.utcnow() + timedelta(days=7)   # ✅ customer field
+        db_token.expire_at = datetime.utcnow() + timedelta(days=7)  
     else:
-        db_token.expires_at = datetime.utcnow() + timedelta(days=7)  # ✅ admin field
+        db_token.expires_at = datetime.utcnow() + timedelta(days=7)  
 
     db.commit()
 

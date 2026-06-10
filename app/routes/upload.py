@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
+from fastapi import APIRouter, UploadFile, File, Depends, HTTPException,Request
 from app.database.models import User
 from app.dependencies.auth_dependency import get_current_user
 import os, uuid, shutil
@@ -34,4 +34,4 @@ def upload_image(
     with open(path,"wb") as f:
         shutil.copyfileobj(file.file,f)
     
-    return {"url":f"http://127.0.0.1:8000/static/images/{filename}"}
+    return {"url":str(Request.base_url)+ f"static/images/{filename}"}
